@@ -1,10 +1,12 @@
 import base64
 from time import sleep
+from PIL import Image
 
 import cv2
 
 from utils import (
     BREAK_KEY,
+    DEBUG,
     EOF,
     FIRST_CHUNK_INDEX,
     MAX_CHUNK_SIZE,
@@ -27,10 +29,14 @@ def _qr_generator(path):
         while data := f.read(MAX_CHUNK_SIZE):
             chunk_to_send = str(i).encode() + base64.standard_b64encode(data)
             qred_chunk = create_qr(chunk_to_send)
+            if DEBUG:
+                Image.fromarray(qred_chunk).save(f"chunk_{i}.png")
             yield i, qred_chunk
             i = get_next_index(i)
 
     img = create_qr(str(i).encode() + EOF.encode())
+    if DEBUG:
+        Image.fromarray(img).save(f"chunk_{i}.png")
     yield i, img
 
 @trace

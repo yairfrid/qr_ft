@@ -16,17 +16,17 @@ class FakeVideoCapture:
     A fake cv2 VideoCapture that reads an image with key img_key from img_map.
     this is used to monkeypatch capture.read() for testing (beacuse we don't want to use the camera in automated tests)
     """
-        def __init__(self, img_map, img_key):
-            """
-            We pass the map itself instead of the key in order to always read the latest values, and not lock the values to when we create the capture
-            """
-            self._img_map = img_map
-            self._img_key = img_key
-        
-        def read(self):
-            if self._img_key not in self._img_map:
-                return None, BLANK_QR # default to blank QR code
-            return None, self._img_map[self._img_key]
+    def __init__(self, img_map, img_key):
+        """
+        We pass the map itself instead of the key in order to always read the latest values, and not lock the values to when we create the capture
+        """
+        self._img_map = img_map
+        self._img_key = img_key
+    
+    def read(self):
+        if self._img_key not in self._img_map:
+            return None, BLANK_QR # default to blank QR code
+        return None, self._img_map[self._img_key]
 
 class FakeImageShower:
     """

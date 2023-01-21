@@ -1,9 +1,10 @@
 import base64
 from time import sleep
+from PIL import Image
 
 import cv2
 
-from utils import BREAK_KEY, EOF, FIRST_CHUNK_INDEX, create_qr, get_next_index, trace
+from utils import BREAK_KEY, DEBUG, EOF, FIRST_CHUNK_INDEX, create_qr, get_next_index, trace
 
 _ACK_WINDOW = 'ack'
 
@@ -36,6 +37,8 @@ def _ack(i):
     i integer
     """
     img = create_qr(str(i).encode())
+    if DEBUG:
+        Image.fromarray(img).save(f"ack_{i}.png")
     cv2.imshow(_ACK_WINDOW, img)
 
 def _read_loop(f, cap):

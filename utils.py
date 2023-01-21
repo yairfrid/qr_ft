@@ -3,6 +3,7 @@ import numpy as np
 import qrcode
 
 _TRACE = False # Flip to True for tracing to print
+DEBUG = True
 MAX_CHUNK_SIZE = 45 # Maximum size to read from a file before sending
 FIRST_CAMERA = 0 # This is just the first camera, if this doesn't work you can try 1 or 2 etc..
 EOF = '$' # Just a random EOF character
